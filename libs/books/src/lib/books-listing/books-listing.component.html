@@ -1,0 +1,21 @@
+<div class="row">
+  <div class="col-6">
+    <div class="d-flex justify-content-center align-items-center">
+      <mat-spinner *ngIf="(loading$ | async) && !(books$ | async).length; else elseBlock"></mat-spinner>
+    </div>
+
+    <ng-template #elseBlock>
+      <mat-nav-list class="selection-list">
+        <a
+          mat-list-item
+          *ngFor="let book of books$ | async"
+          [routerLink]="'/' + book.id"
+        >{{ book.title }}</a>
+      </mat-nav-list>
+    </ng-template>
+  </div>
+
+  <div class="col-6">
+    <ngrx-crud-poc-prompt-select (create)="goToCreate()"></ngrx-crud-poc-prompt-select>
+  </div>
+</div>

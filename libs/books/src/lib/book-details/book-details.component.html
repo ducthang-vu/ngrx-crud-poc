@@ -1,0 +1,50 @@
+<div class="row">
+  <div class="col-6 p-5">
+    <a mat-button [routerLink]="['']" class="btn btn-primary">
+      Back to list
+    </a>
+
+    <div *ngIf="deleting$ | async">
+      <div class="p-5 d-flex justify-content-center align-items-center">
+        <h3>Deleting</h3>
+      </div>
+      <div class="p-5 d-flex justify-content-center align-items-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-6 p-5">
+    <mat-card *ngIf="book$ | async as book" class="example-card">
+      <mat-card-header >
+        <mat-card-title>{{ book.title }}</mat-card-title>
+        <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Year: {{ book.year }}</p>
+        <p>Language: {{ book.language }}</p>
+        <p>Country: {{ book.country }}</p>
+        <p>Pages: {{ book.pages }}</p>
+        <p>Link: {{ book.link }}</p>
+      </mat-card-content>
+      <mat-card-actions class="text-right">
+        <button
+          mat-button
+          class="btn btn-warning"
+          [routerLink]="'edit'"
+        >EDIT</button>
+        <button
+          mat-button
+          class="btn btn-danger"
+          (click)="delete()"
+          [disabled]="deleting$ | async"
+        >DELETE</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</div>
+
+
+
