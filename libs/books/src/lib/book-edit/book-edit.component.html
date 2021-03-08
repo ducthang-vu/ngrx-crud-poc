@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-6 p-5">
+    <a mat-button [routerLink]="['']" class="btn btn-primary">
+      Back to list
+    </a>
+
+    <div *ngIf="editing$ | async">
+      <div class="p-5 d-flex justify-content-center align-items-center">
+        <h3>Updating</h3>
+      </div>
+      <div class="p-5 d-flex justify-content-center align-items-center">
+        <mat-spinner></mat-spinner>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-6 p-5">
+    <ngrx-crud-poc-form
+      [selected]="currentEntity$ | async"
+      (formSubmit)="edit($event)"
+    >
+    </ngrx-crud-poc-form>
+  </div>
+
+</div>
+

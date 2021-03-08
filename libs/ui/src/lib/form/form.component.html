@@ -1,0 +1,42 @@
+<form class="form" [formGroup]="form" (ngSubmit)="formSubmit.emit(form.value)">
+  <mat-form-field class="full-width">
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Title" value="" formControlName="title">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Author</mat-label>
+    <input matInput placeholder="Enter a author..." formControlName="author">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Country</mat-label>
+    <input matInput placeholder="Enter a country..." formControlName="country">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Language</mat-label>
+    <input matInput placeholder="Enter a language..." formControlName="language">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Link</mat-label>
+    <input matInput placeholder="Enter a link..." formControlName="link">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Pages</mat-label>
+    <input matInput placeholder="Enter a pages..." formControlName="pages">
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Year</mat-label>
+    <input matInput placeholder="Enter a year..." formControlName="year">
+  </mat-form-field>
+
+  <section>
+    <div class="example-button-row">
+      <input type="submit" class="btn btn-primary" color="primary" value="{{ selected ? 'EDIT' : 'CREATE'}}">
+    </div>
+  </section>
+</form>
