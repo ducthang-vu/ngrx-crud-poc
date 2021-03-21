@@ -22,7 +22,7 @@ export class BookDetailsComponent implements OnInit {
   }
 
   delete() {
-    this.booksFacade.delete();
+    this.booksFacade.deleteEntity();
   }
 
 }

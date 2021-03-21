@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BooksFacade } from '../+state/books.facade';
 import { Observable } from 'rxjs';
+import { Book } from '@ngrx-crud-poc/core-data';
 
 @Component({
   selector: 'ngrx-crud-poc-book-create',
@@ -16,7 +17,7 @@ export class BookCreateComponent implements OnInit {
     this.creating$ = this.bookFacade.creating$;
   }
 
-  create(values) {
-    this.bookFacade.createBook(values)
+  create(values: Omit<Book, 'id'>) {
+    this.bookFacade.createEntity(values)
   }
 }

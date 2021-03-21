@@ -20,4 +20,24 @@ module.exports = {
     'jest-preset-angular/build/AngularSnapshotSerializer.js',
     'jest-preset-angular/build/HTMLCommentSerializer.js',
   ],
+
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{ts,js,jsx}",
+    "!**/*{index,module}.ts",
+    "!**/*mocks.{ts,js,jsx}",
+    "!**/*jest.config.js",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  // not default
+  coverageReporters: ["html"],
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": -10
+    }
+  },
 };

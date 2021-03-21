@@ -1,62 +1,27 @@
-import { booksAdapter, initialState } from './books.reducer';
-import * as BooksSelectors from './books.selectors';
+import { booksAdapter, initialState, BooksState } from './books.reducer';
+import { booksQuery } from './books.selectors';
 import { Book } from '@ngrx-crud-poc/core-data';
 
 describe('Books Selectors', () => {
-  const ERROR_MSG = 'No Error Available';
-  const getBooksId = (it) => it['id'];
   const createBooksEntity = (id: string, name = '') =>
     ({
       id,
       title: name || `name-${id}`,
     } as Book);
 
-  let state;
+  const state: { books: BooksState } = { books: initialState};
 
   beforeEach(() => {
-    state = {
-      books: booksAdapter.setAll(
-        [
-          createBooksEntity('PRODUCT-AAA'),
-          createBooksEntity('PRODUCT-BBB'),
-          createBooksEntity('PRODUCT-CCC'),
-        ],
-        {
-          ...initialState,
-          selectedId: 'PRODUCT-BBB',
-          error: ERROR_MSG,
-          loaded: true,
-        }
-      ),
+    const payload = ['PRODUCT-AAA', 'PRODUCT-BBB', 'PRODUCT-CCC'].map(id => createBooksEntity(id));
+    state.books = {
+      ...initialState,
+      ...booksAdapter.loadEntitiesDone(initialState, { payload })
     };
   });
 
-  /*describe('Books Selectors', () => {
-    it('getAllBooks() should return the list of Books', () => {
-      const results = BooksSelectors.getAllBooks(state);
-      const selId = getBooksId(results[1]);
+  it('getCurrentEntity should get current entity', () => {
+    state.books.currentId = 'PRODUCT-BBB';
+    expect(booksQuery.getCurrentEntity(state)).toEqual(createBooksEntity('PRODUCT-BBB'));
+  });
 
-      expect(results.length).toBe(3);
-      expect(selId).toBe('PRODUCT-BBB');
-    });
-
-    it('getSelected() should return the selected Entity', () => {
-      const result = BooksSelectors.getSelected(state);
-      const selId = getBooksId(result);
-
-      expect(selId).toBe('PRODUCT-BBB');
-    });
-
-    it("getBooksLoaded() should return the current 'loaded' status", () => {
-      const result = BooksSelectors.getBooksLoaded(state);
-
-      expect(result).toBe(true);
-    });
-
-    it("getBooksError() should return the current 'error' state", () => {
-      const result = BooksSelectors.getBooksError(state);
-
-      expect(result).toBe(ERROR_MSG);
-    });
-  });*/
 });

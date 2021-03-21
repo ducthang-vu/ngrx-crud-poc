@@ -14,6 +14,15 @@ module.exports = {
       },
     },
   },
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{ts,js,jsx}",
+    "!**/*{index,module}.ts",
+    "!**/*jest.config.js",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  coverageReporters: ["html"],
   coverageDirectory: '../../coverage/libs/ngrx-crud-util',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',

@@ -2,15 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book } from '@ngrx-crud-poc/core-data';
-import { CrudService } from '@ngrx-crud-poc/ngrx-crud-util';
 import { delay } from 'rxjs/operators';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
+import { CrudService } from '@ngrx-crud-poc/ngrx-crud-util';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class BooksService implements CrudService<Book> {
-  baseUrl = 'http://localhost:3333/api/books';
+  private baseUrl = 'http://localhost:3333/api/books';
 
   constructor(private http: HttpClient) {
   }
@@ -26,12 +27,12 @@ export class BooksService implements CrudService<Book> {
   }
 
   @addRandomDelay
-  create(newItem: Book): Observable<Book> {
+  create(newItem: Omit<Book, 'id'>): Observable<Book> {
     return this.http.post<Book>(this.baseUrl, newItem);
   }
 
   @addRandomDelay
-  update(id: string, updateItem: Book): Observable<Book> {
+  update(id: string, updateItem: Partial<Book>): Observable<Book> {
     return this.http.put<Book>(`${this.baseUrl}/${id}`, updateItem);
   }
 

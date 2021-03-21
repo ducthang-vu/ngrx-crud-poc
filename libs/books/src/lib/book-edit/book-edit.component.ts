@@ -20,10 +20,10 @@ export class BookEditComponent implements OnInit {
     this.editing$ = this.bookFacade.updating$;
   }
 
-  edit(values) {
+  edit(values: Partial<Book>) {
     of(values).pipe(
       withLatestFrom(this.currentEntity$),
-      tap(([values, entity]) => this.bookFacade.editBook(entity.id, values))
+      tap(([values, entity]) => this.bookFacade.editEntity(entity.id, values))
     ).subscribe()
   }
 }

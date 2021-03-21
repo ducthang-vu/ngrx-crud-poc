@@ -1,44 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { booksQuery } from './books.selectors';
-import { Observable, of, Subject } from 'rxjs';
-import { Book } from '@ngrx-crud-poc/core-data';
+import { Observable, of } from 'rxjs';
+import { Book, IBooksFacade } from '@ngrx-crud-poc/core-data';
 import { fromBooksActions } from './books.actions';
 import { tap, withLatestFrom } from 'rxjs/operators';
+import { BooksState } from './books.reducer';
+import { ListingFacade } from '@ngrx-crud-poc/ngrx-crud-util';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BooksFacade {
-  currentEntity$: Observable<Book> = this.store.select(booksQuery.getCurrentEntity);
-  creating$: Observable<boolean> = this.store.select(booksQuery.getCreating);
-  deleting$: Observable<boolean> = this.store.select(booksQuery.getDeleting);
-  entities$: Observable<Book[]> = this.store.select(booksQuery.getEntities);
-  loading$: Observable<boolean> = this.store.select(booksQuery.getLoading);
-  updating$: Observable<boolean> = this.store.select(booksQuery.getUpdating);
+export class BooksFacade extends ListingFacade<Book, BooksState> implements IBooksFacade {
+  currentEntity$: Observable<Book> = this.select(booksQuery.getCurrentEntity);
 
   constructor(
-    private store: Store
+    protected store: Store<BooksState>
   ) {
+    super(fromBooksActions, booksQuery, store)
   }
 
-  private dispatch(action: Action) {
-    return this.store.dispatch(action);
-  }
-
-  createBook(newBook: Omit<Book, 'id'>) {
-    this.dispatch(fromBooksActions.createEntity({ payload: newBook }));
-  }
-
-  editBook(id: string, updatedItem: Book) {
-    const payload = { id, updatedItem };
-    this.dispatch(fromBooksActions.updateEntity({ payload }));
-  }
-
-  delete() {
+  deleteEntity() {
     return of({}).pipe(
       withLatestFrom(this.currentEntity$),
-      tap(([, { id }]) => this.dispatch(fromBooksActions.deleteEntity({ payload: id })))
+      tap(([, { id }]) => super.deleteEntity(id))
     ).subscribe()
   }
 

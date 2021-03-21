@@ -1,7 +1,6 @@
 import { createFeatureSelector, createSelector, DefaultProjectorFn, MemoizedSelector } from '@ngrx/store';
-import { ListingState } from '@ngrx-crud-poc/ngrx-crud-util';
 import { ListingQuery } from './ListingQuery';
-
+import { ListingState } from '../reducers/ListingState';
 
 function createListingSelectors<T>(
   listState: MemoizedSelector<ListingState<T>, ListingState<T>, DefaultProjectorFn<ListingState<T>>>)

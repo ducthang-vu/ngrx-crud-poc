@@ -1,13 +1,13 @@
 import { createReducer, on, ReducerTypes } from '@ngrx/store';
-import { ListingState } from '@ngrx-crud-poc/ngrx-crud-util';
 import { ListingAdapter } from './ListingAdapter';
-import { ListingActions } from '../actions/ListingActions';
+import { ListingActionCreator } from '../actions/ListingActionCreator';
+import { ListingState } from './ListingState';
 
 
 export function createListingReducer<T, S extends ListingState<T>>(
-  adapter: ListingAdapter<T>,
+  adapter: ListingAdapter<T, S>,
   initialState: S,
-  actions: ListingActions<T>,
+  actions: ListingActionCreator<T>,
   otherReducers: ReducerTypes<S, any>[] = []
 ) {
   return createReducer(

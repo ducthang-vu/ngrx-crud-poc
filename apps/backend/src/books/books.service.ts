@@ -1,19 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { Book } from "@ngrx-crud-poc/core-data";
+import { Book, IBeCrudService } from "@ngrx-crud-poc/core-data";
 import { DbService } from "./db/db.service";
 
-interface CrudService<T> {
-  findAll: () => T[];
-  findOne: (id: string) => T;
-  create: (item: T) => T;
-  update: (id: string, item: T) => T;
-  remove: (id: string) => string;
-}
-
 @Injectable()
-export class BooksService implements CrudService<Book> {
+export class BooksService implements IBeCrudService<Book> {
   constructor(private db: DbService) {
   }
 

@@ -3,14 +3,14 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map } from 'rxjs/operators';
 import { CrudService } from '@ngrx-crud-poc/ngrx-crud-util';
 import { Action } from '@ngrx/store';
-import { ListingActions, UpdatePayload } from '../actions/ListingActions';
+import { ListingActionCreator, UpdatePayload } from '../actions/ListingActionCreator';
 
-export abstract class ListingEffect<T> {
+export abstract class ListingEffects<T> {
   protected abstract crudService: CrudService<T>;
 
   protected constructor(
     protected actions$: Actions,
-    protected actions: ListingActions<T>,
+    protected actions: ListingActionCreator<T>,
   ) {
   }
 
@@ -18,9 +18,9 @@ export abstract class ListingEffect<T> {
     ofType(this.actions.loadEntities),
     fetch({
       run: () => this.crudService.findAll().pipe(
-        map(res => this.actions.loadEntitiesDone({ payload: res }))
+        map(this.actions.loadEntitiesDone)
       ),
-      onError: (_, error: Error) => this.actions.loadEntitiesError({ payload: { error } })
+      onError: (_, error: Error) => this.actions.loadEntitiesError(error)
     }))
   );
 
@@ -28,29 +28,30 @@ export abstract class ListingEffect<T> {
     ofType(this.actions.loadEntity),
     fetch({
       run: (action: Action & { payload: string }) => this.crudService.findOne(action.payload).pipe(
-        map(res => this.actions.loadEntityDone({ payload: res }))
+        map(this.actions.loadEntityDone)
       ),
-      onError: (_, error: Error) => this.actions.loadEntitiesError({ payload: { error } })
+      onError: (_, error: Error) => this.actions.loadEntityError(error)
     }))
   );
 
   createEntity$ = createEffect(() => this.actions$.pipe(
     ofType(this.actions.createEntity),
     pessimisticUpdate({
-      run: (action: Action & { payload: T }) => this.crudService.create(action.payload).pipe(
-        map(this.actions.createEntityDone.bind(this))
+      run: (action) => this.crudService.create(action.payload).pipe(
+        map(this.actions.createEntityDone)
       ),
-      onError: (_, error: Error) => this.actions.createEntityError({ payload: { error } })
+      onError: (_, error: Error) => this.actions.createEntityError(error)
     }))
   );
 
   updateEntity$ = createEffect(() => this.actions$.pipe(
     ofType(this.actions.updateEntity),
     pessimisticUpdate({
-      run: (action: Action & { payload: UpdatePayload<T> }) => this.crudService.update(action.payload.id, action.payload.updatedItem).pipe(
-        map(res => this.actions.updateEntityDone({ payload: res }))
-      ),
-      onError: (_, error: Error) => this.actions.updateEntityError({ payload: { error } })
+      run: (action: Action & { payload: UpdatePayload<T> }) =>
+        this.crudService.update(action.payload.id, action.payload.updatedItem).pipe(
+          map(this.actions.updateEntityDone)
+        ),
+      onError: (_, error: Error) => this.actions.updateEntityError(error)
     }))
   );
 
@@ -58,9 +59,9 @@ export abstract class ListingEffect<T> {
     ofType(this.actions.deleteEntity),
     pessimisticUpdate({
       run: (action: Action & { payload: string }) => this.crudService.remove(action.payload).pipe(
-        map(id => this.actions.deleteEntityDone({ payload: id }))
+        map(this.actions.deleteEntityDone)
       ),
-      onError: (_, error: Error) => this.actions.deleteEntityError({ payload: { error } })
+      onError: (_, error: Error) => this.actions.deleteEntityError(error)
     }))
   );
 

@@ -1,15 +1,15 @@
-import { BooksEntity } from './books.models';
-import * as BooksActions from './books.actions';
-import { State, initialState, reducer } from './books.reducer';
+import { booksReducer, BooksState, initialState } from './books.reducer';
+import { Book } from '@ngrx-crud-poc/core-data';
+import { fromBooksActions } from './books.actions';
 
 describe('Books Reducer', () => {
   const createBooksEntity = (id: string, name = '') =>
     ({
       id,
-      name: name || `name-${id}`,
-    } as BooksEntity);
+      title: name || `name-${id}`,
+    } as Book);
 
-  beforeEach(() => {});
+  beforeEach(() => undefined);
 
   describe('valid Books actions', () => {
     it('loadBooksSuccess should return set the list of known Books', () => {
@@ -17,22 +17,26 @@ describe('Books Reducer', () => {
         createBooksEntity('PRODUCT-AAA'),
         createBooksEntity('PRODUCT-zzz'),
       ];
-      const action = BooksActions.loadBooksSuccess({ books });
-
-      const result: State = reducer(initialState, action);
-
-      expect(result.loaded).toBe(true);
-      expect(result.ids.length).toBe(2);
+      const action = fromBooksActions.loadEntitiesDone(books);
+      const newstate: BooksState = booksReducer(initialState, action);
+      expect(newstate.ids.length).toBe(2);
+      expect(Object.values(newstate.entities)).toEqual(books);
     });
   });
 
   describe('unknown action', () => {
     it('should return the previous state', () => {
       const action = {} as any;
-
-      const result = reducer(initialState, action);
-
+      const result = booksReducer(initialState, action);
       expect(result).toBe(initialState);
+    });
+  });
+
+  describe('update currentId', () => {
+    it('loadBooksSuccess should return set the list of known Books', () => {
+      const action = fromBooksActions.loadEntity('mock');
+      const newstate: BooksState = booksReducer(initialState, action);
+      expect(newstate.currentId).toBe('mock');
     });
   });
 });

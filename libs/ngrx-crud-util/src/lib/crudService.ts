@@ -19,7 +19,7 @@ export interface CrudService<T> {
   /**
    * Create a mew entity
    */
-  create: (item: T) => Observable<T>;
+  create: (item: Omit<T, 'id'>) => Observable<T>;
 
   /**
    * Update an entity

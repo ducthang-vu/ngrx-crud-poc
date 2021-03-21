@@ -1,4 +1,20 @@
 module.exports = {
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{js,jsx}",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['kjhtml', 'junit'],
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": -10
+    }
+  },
   projects: [
     '<rootDir>/apps/ngrx-crud-poc',
     '<rootDir>/apps/backend',
@@ -8,4 +24,5 @@ module.exports = {
     '<rootDir>/libs/ui',
     '<rootDir>/libs/books',
   ],
+  testEnvironment: "node"
 };

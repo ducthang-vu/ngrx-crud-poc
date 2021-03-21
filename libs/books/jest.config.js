@@ -14,10 +14,28 @@ module.exports = {
       },
     },
   },
+  collectCoverage: true,
+  collectCoverageFrom: [
+    "**/*.{ts,js,jsx}",
+    "!**/*mock.{ts,js,jsx}",
+    "!**/*jest.config.js",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
   coverageDirectory: '../../coverage/libs/books',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
     'jest-preset-angular/build/AngularSnapshotSerializer.js',
     'jest-preset-angular/build/HTMLCommentSerializer.js',
   ],
+  // not default
+  coverageReporters: ["html"],
+  coverageThreshold: {
+    "global": {
+      "branches": 80,
+      "functions": 80,
+      "lines": 80,
+      "statements": -10
+    }
+  },
 };
