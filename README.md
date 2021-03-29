@@ -9,7 +9,7 @@ The root application is a simple example; to try it run:
 npm run start-both
 ```
 
-##FEATURES
+## FEATURES
 - Action creator factory for common crud operations.
 
 ```
