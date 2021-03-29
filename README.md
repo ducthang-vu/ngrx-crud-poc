@@ -6,7 +6,7 @@ and facade which simplify working with common crud operation for a given resourc
 The utility library is called **ngrx-crud-util** (in the libs folder). 
 The root application is a simple example; to try it run: 
 ```
-npm npm run start-both
+npm run start-both
 ```
 
 
