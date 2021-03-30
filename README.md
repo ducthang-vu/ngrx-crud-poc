@@ -10,14 +10,54 @@ npm run start-both
 ```
 
 ## FEATURES
-- Action creator factory for common crud operations.
+### ListingAdapter 
+The **ListingAdapter** extends the ngrx standard adapter. The listing adapter's getListingInitialState return 
+the initial state which implements the ListingState interface, the latter extending the ngrx EntityState interface:
+```
+// default ListingState returned by the listing adapter
+{
+      entities: {},
+      ids: [],
+      loading: false,
+      updating: false,
+      creating: false,
+      deleting: false,
+      error: null,
+}
+```
+  
+Consider the following example:
+```
+import { Book } from '@ngrx-crud-poc/core-data';
+
+// initial state extend ListingState with currentId property
+type BooksState = ListingState<Book> & { currentId: string }
+
+const booksAdapter = createListingAdapter<Book, BooksState>();
+const initialState: BooksState = booksAdapter.getListingInitialState({ currentId: null });
+
+console.log(initialState)
+/ *{
+      entities: {},
+      ids: [],
+      loading: false,
+      updating: false,
+      creating: false,
+      deleting: false,
+      error: null,
+      currentId: null   
+} */
+```
+
+### listingActionCreatorFactory
+Action creator factory for common crud operations.
 
 ```
 // Example with Book entity
 import { Book } from '@ngrx-crud-poc/core-data'
 import { listingActionCreatorFactory } from '@ngrx-crud-poc/ngrx-crud-util';
 
-export const fromBooksActions = listingActionCreatorFactory<Book>('Books')
+const fromBooksActions = listingActionCreatorFactory<Book>('Books')
 
 // create loadEntities action:
 const newAction = fromBooksActions.loadEntities()
@@ -26,8 +66,9 @@ console.log(newAction)
 // { type: "[Books] Load entities" }
 
 
-// fromBooksActions implements the following interface:
-// ngrx-crud-poc/libs/ngrx-crud-util/src/lib/actions/ListingActionCreator.ts
+/* fromBooksActions implements the following interface:
+ngrx-crud-poc/libs/ngrx-crud-util/src/lib/actions/ListingActionCreator.ts
+
 interface ListingActionCreator<T> {
   loadEntities: ActionCreator;
   loadEntitiesDone: CrudActionCreator<T[]>;
@@ -49,6 +90,7 @@ interface ListingActionCreator<T> {
   deleteEntityDone: CrudActionCreator<string>;
   deleteEntityError: CrudActionCreator<Error>;
 }
+*/
 ```
 
 
