@@ -30,7 +30,7 @@ Consider the following example:
 ```
 import { Book } from '@ngrx-crud-poc/core-data';
 
-// initial state extend ListingState with currentId property
+// In this case, we want the initial state to extend ListingState with currentId property
 type BooksState = ListingState<Book> & { currentId: string }
 
 const booksAdapter = createListingAdapter<Book, BooksState>();
