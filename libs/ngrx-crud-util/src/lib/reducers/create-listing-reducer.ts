@@ -12,25 +12,25 @@ export function createListingReducer<T, S extends ListingState<T>>(
 ) {
   return createReducer(
     initialState,
-    on(actions.loadEntities, adapter.loadEntities),
-    on(actions.loadEntitiesDone, adapter.loadEntitiesDone),
-    on(actions.loadEntitiesError, adapter.loadEntitiesError),
+    on(actions.loadEntities, adapter.loadEntities as any),
+    on(actions.loadEntitiesDone, adapter.loadEntitiesDone as any),
+    on(actions.loadEntitiesError, adapter.loadEntitiesError as any),
 
-    on(actions.loadEntity, adapter.loadEntity),
-    on(actions.loadEntityDone, adapter.loadEntityDone),
-    on(actions.loadEntityError, adapter.loadEntityError),
+    on(actions.loadEntity, adapter.loadEntity as any),
+    on(actions.loadEntityDone, adapter.loadEntityDone as any),
+    on(actions.loadEntityError, adapter.loadEntityError as any),
 
-    on(actions.createEntity, adapter.createEntity),
-    on(actions.createEntityDone, adapter.createEntityDone),
-    on(actions.createEntityError, adapter.loadEntitiesError),
+    on(actions.createEntity, adapter.createEntity as any),
+    on(actions.createEntityDone, adapter.createEntityDone as any),
+    on(actions.createEntityError, adapter.loadEntitiesError as any),
 
-    on(actions.updateEntity, adapter.updateEntity),
-    on(actions.updateEntityDone, adapter.updateEntityDone),
-    on(actions.updateEntityError, adapter.updateEntityError),
+    on(actions.updateEntity, adapter.updateEntity as any),
+    on(actions.updateEntityDone, adapter.updateEntityDone as any),
+    on(actions.updateEntityError, adapter.updateEntityError as any),
 
-    on(actions.deleteEntity, adapter.deleteEntity),
-    on(actions.deleteEntityDone, adapter.deleteEntityDone),
-    on(actions.deleteEntityError, adapter.deleteEntityError),
+    on(actions.deleteEntity, adapter.deleteEntity as any),
+    on(actions.deleteEntityDone, adapter.deleteEntityDone as any),
+    on(actions.deleteEntityError, adapter.deleteEntityError as any),
 
     ...(otherReducers && otherReducers)
   );
